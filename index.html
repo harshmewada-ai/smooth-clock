@@ -185,19 +185,19 @@
             position: relative;
             overflow: hidden;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-start;
         }
 
         .track {
             display: flex;
             height: 100%;
-            width: 300%;
+            width: 300vw;
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .vw {
-            width: 33.333%;
+            width: 100vw;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -740,7 +740,7 @@
         let cv = 0, tx = 0;
         function go(i) {
             cv = i;
-            document.getElementById('track').style.transform = `translateX(-${i * 33.333}%)`;
+            document.getElementById('track').style.transform = `translateX(-${i * 100}vw)`;
             document.querySelectorAll('.ni').forEach((e, j) => e.classList.toggle('on', j === i));
         }
         const sa = document.getElementById('swa');
