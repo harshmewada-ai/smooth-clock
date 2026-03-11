@@ -185,19 +185,22 @@
             position: relative;
             overflow: hidden;
             display: flex;
-            align-items: stretch;
-            justify-content: flex-start;
+            align-items: center;
+            justify-content: center;
         }
 
         .track {
             display: flex;
             height: 100%;
-            width: 300vw;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .vw {
-            width: 100vw;
+            width: 380px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -555,6 +558,22 @@
             display: none !important;
         }
 
+        /* Mobile specific layout for sliding */
+        @media(max-width: 900px) {
+            .content {
+                align-items: stretch;
+                justify-content: flex-start;
+            }
+            .track {
+                width: 300vw;
+                justify-content: flex-start;
+                gap: 0;
+            }
+            .vw {
+                width: 100vw;
+            }
+        }
+
         @media(max-width: 420px) {
             .clock-container {
                 width: 260px;
@@ -740,9 +759,23 @@
         let cv = 0, tx = 0;
         function go(i) {
             cv = i;
-            document.getElementById('track').style.transform = `translateX(-${i * 100}vw)`;
+            if (window.innerWidth <= 900) {
+                document.getElementById('track').style.transform = `translateX(-${i * 100}vw)`;
+            } else {
+                // Remove transform on desktop so centering applies naturally
+                document.getElementById('track').style.transform = `none`;
+            }
             document.querySelectorAll('.ni').forEach((e, j) => e.classList.toggle('on', j === i));
         }
+        
+        // Handle window resizes properly
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                document.getElementById('track').style.transform = `none`;
+            } else {
+                document.getElementById('track').style.transform = `translateX(-${cv * 100}vw)`;
+            }
+        });
         const sa = document.getElementById('swa');
         sa.addEventListener('touchstart', e => { tx = e.touches[0].clientX }, { passive: true });
         sa.addEventListener('touchend', e => {
