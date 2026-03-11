@@ -614,6 +614,37 @@
                 font-size: clamp(2.5rem, 12vw, 3.5rem);
             }
         }
+
+        @media(max-height: 600px) and (orientation: landscape) {
+            .hdr { padding: 5px 24px; }
+            .vw { padding: 5px; justify-content: center; }
+
+            /* Clock View */
+            .clock-container { width: 180px; height: 180px; }
+            .clock-face { width: 150px; height: 150px; }
+            .hour-hand { height: 40px; }
+            .min-hand { height: 60px; }
+            .sec-hand { height: 70px; }
+            .tick { transform-origin: center 70px; }
+            .num { font-size: 14px; }
+            .date-disp { margin-top: 10px; font-size: 12px; }
+
+            /* Stopwatch View */
+            .digi-time { font-size: 2.5rem; margin-bottom: 10px; }
+            .cbs { margin-bottom: 10px; gap: 15px; }
+            .cbs .neu-btn { padding: 10px 20px; font-size: 12px; min-width: 80px; }
+            .laps-container { height: 90px; padding: 5px; margin-bottom: 0; }
+            .lap { padding: 8px 12px; margin-bottom: 5px; font-size: 12px; }
+
+            /* Timer View */
+            .tset { margin-bottom: 15px; gap: 15px; }
+            .tin { width: 50px; height: 50px; font-size: 1.5rem; }
+            .tu { font-size: 9px; }
+            .tc { margin-bottom: 15px; font-size: 1.5rem; }
+            .pres { max-width: 400px; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .pre { padding: 6px; gap: 4px; }
+            .pt2 { font-size: 12px; }
+        }
     </style>
 </head>
 
