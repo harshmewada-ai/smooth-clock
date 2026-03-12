@@ -148,7 +148,8 @@
         body {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             background: var(--bg-color);
             color: var(--text-primary);
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -159,7 +160,7 @@
         .app {
             position: relative;
             z-index: 1;
-            height: 100%;
+            min-height: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -191,14 +192,12 @@
 
         .track {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             width: 100%;
-            height: 100%;
-            gap: 20px;
-            padding: 20px;
-            overflow-y: auto;
-            scrollbar-width: none;
+            gap: 40px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .track::-webkit-scrollbar {
@@ -539,45 +538,32 @@
         /* Mobile specific layout for sliding */
         /* Removed mobile sliding CSS */
 
-        @media(max-width: 420px) {
+        @media(max-width: 768px) {
+            .track {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+
+            .vw {
+                height: auto;
+                min-height: 400px;
+            }
+
             .clock-container {
-                width: 260px;
-                height: 260px;
+                width: 240px;
+                height: 240px;
             }
 
             .clock-face {
-                width: 220px;
-                height: 220px;
+                width: 200px;
+                height: 200px;
             }
 
-            .hour-hand {
-                height: 60px;
-            }
-
-            .min-hand {
-                height: 85px;
-            }
-
-            .sec-hand {
-                height: 95px;
-            }
-
-            .tick {
-                transform-origin: center 100px;
-            }
-
-            .nav {
-                gap: 15px;
-            }
-
-            .cbs .neu-btn {
-                padding: 14px 24px;
-                min-width: 90px;
-            }
-
-            .digi-time {
-                font-size: clamp(2.5rem, 12vw, 3.5rem);
-            }
+            .hour-hand { height: 50px; }
+            .min-hand { height: 75px; }
+            .sec-hand { height: 85px; }
+            .tick { transform-origin: center 90px; }
         }
 
         @media(max-height: 600px) and (orientation: landscape) {
