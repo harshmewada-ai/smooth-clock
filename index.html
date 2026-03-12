@@ -190,23 +190,29 @@
         }
 
         .track {
-            display: flex;
-            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
             width: 100%;
-            justify-content: center;
-            align-items: center;
-            gap: 120px;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            height: 100%;
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .track::-webkit-scrollbar {
+            display: none;
         }
 
         .vw {
-            width: 380px;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         /* Neumorphic primitives */
@@ -460,6 +466,8 @@
             font: 300 3rem/1 'SF Mono', 'Courier New', monospace;
             text-align: center;
             outline: none;
+            appearance: none;
+            -webkit-appearance: none;
             -moz-appearance: textfield;
         }
 
@@ -483,36 +491,6 @@
             font-weight: 300;
         }
 
-        .pres {
-            width: 100%;
-            max-width: 320px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .pre {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .pn {
-            color: var(--text-secondary);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .pt2 {
-            font-family: 'SF Mono', monospace;
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
 
         /* Nav */
         .nav {
@@ -559,20 +537,7 @@
         }
 
         /* Mobile specific layout for sliding */
-        @media(max-width: 900px) {
-            .content {
-                align-items: stretch;
-                justify-content: flex-start;
-            }
-            .track {
-                width: 300vw;
-                justify-content: flex-start;
-                gap: 0;
-            }
-            .vw {
-                width: 100vw;
-            }
-        }
+        /* Removed mobile sliding CSS */
 
         @media(max-width: 420px) {
             .clock-container {
@@ -644,6 +609,137 @@
             .pres { max-width: 400px; grid-template-columns: repeat(4, 1fr); gap: 10px; }
             .pre { padding: 6px; gap: 4px; }
             .pt2 { font-size: 12px; }
+        }
+
+        /* To-do List View Styles */
+        .todo-container {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 100%;
+            max-height: 600px;
+        }
+
+        .todo-input-wrap {
+            display: flex;
+            gap: 12px;
+            padding: 4px;
+        }
+
+        .todo-in {
+            flex: 1;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 16px;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .todo-add-btn {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border-radius: 16px;
+            color: var(--accent);
+        }
+
+        .todo-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 12px;
+            margin: 0 -8px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scrollbar-width: none;
+        }
+
+        .todo-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px;
+            margin: 10px;
+            border-radius: 16px;
+            animation: slideIn 0.3s ease-out;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .todo-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .todo-item.done .todo-check {
+            background: var(--accent);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .todo-check svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            display: none;
+        }
+
+        .todo-item.done .todo-check svg {
+            display: block;
+        }
+
+        .todo-txt {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .todo-item.done .todo-txt {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .todo-del {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.2s;
+            border-radius: 8px;
+        }
+
+        .todo-item:hover .todo-del {
+            opacity: 1;
+        }
+
+        .todo-del:hover {
+            color: var(--accent);
         }
     </style>
 </head>
@@ -728,15 +824,19 @@
                         <button class="neu-btn bg2 hid" id="tcan" onclick="tReset()">Cancel</button>
                         <button class="neu-btn bp" id="tbtn" onclick="tTog()">Start</button>
                     </div>
-                    <div class="pres" id="tpre">
-                        <div class="pre neu-btn" onclick="tQ(1,0)"><span class="pn">Quick</span><span
-                                class="pt2">1:00</span></div>
-                        <div class="pre neu-btn" onclick="tQ(5,0)"><span class="pn">Coffee</span><span
-                                class="pt2">5:00</span></div>
-                        <div class="pre neu-btn" onclick="tQ(10,0)"><span class="pn">Focus</span><span
-                                class="pt2">10:00</span></div>
-                        <div class="pre neu-btn" onclick="tQ(25,0)"><span class="pn">Pomodoro</span><span
-                                class="pt2">25:00</span></div>
+                </div>
+
+                <!-- Todo View -->
+                <div class="vw">
+                    <div class="todo-container">
+                        <div class="logo" style="text-align: center; margin-bottom: 20px;">Focus Tasks</div>
+                        <div class="todo-input-wrap">
+                            <input type="text" class="todo-in neu-inset" id="todo-in" placeholder="Add a task..." onkeydown="if(event.key==='Enter') addTodo()">
+                            <button class="neu-btn todo-add-btn" onclick="addTodo()">+</button>
+                        </div>
+                        <div class="todo-list" id="todo-list">
+                            <!-- Tasks will be injected here -->
+                        </div>
                     </div>
                 </div>
 
@@ -787,35 +887,7 @@
         }
 
         /* Nav */
-        let cv = 0, tx = 0;
-        function go(i) {
-            cv = i;
-            if (window.innerWidth <= 900) {
-                document.getElementById('track').style.transform = `translateX(-${i * 100}vw)`;
-            } else {
-                // Remove transform on desktop so centering applies naturally
-                document.getElementById('track').style.transform = `none`;
-            }
-            document.querySelectorAll('.ni').forEach((e, j) => e.classList.toggle('on', j === i));
-        }
-        
-        // Handle window resizes properly
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 900) {
-                document.getElementById('track').style.transform = `none`;
-            } else {
-                document.getElementById('track').style.transform = `translateX(-${cv * 100}vw)`;
-            }
-        });
-        const sa = document.getElementById('swa');
-        sa.addEventListener('touchstart', e => { tx = e.touches[0].clientX }, { passive: true });
-        sa.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - tx;
-            if (Math.abs(dx) > 55) {
-                if (dx < 0 && cv < 2) go(cv + 1);
-                if (dx > 0 && cv > 0) go(cv - 1);
-            }
-        }, { passive: true });
+        /* Sliding logic removed for 2x2 grid */
 
         /* Stopwatch */
         let swOn = false, swT = 0, swMs = 0, swRf, swL = [];
@@ -864,7 +936,6 @@
             const m = Math.floor(tRm / 60), s = tRm % 60;
             document.getElementById('tdisp').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         }
-        function tQ(m, s) { document.getElementById('tmin').value = m; document.getElementById('tsec').value = s; tTog(); }
         function tTog() {
             const b = document.getElementById('tbtn'), c = document.getElementById('tcan');
             if (!tOn) {
@@ -872,7 +943,6 @@
                 if (tRm <= 0) return;
                 tOn = true;
                 document.getElementById('tset').classList.add('hid');
-                document.getElementById('tpre').classList.add('hid');
                 document.getElementById('tdisp').classList.remove('hid');
                 c.classList.remove('hid');
                 b.textContent = 'Pause'; b.classList.add('active');
@@ -892,7 +962,6 @@
         function tReset() {
             clearInterval(tI); tOn = false; tRm = 0;
             document.getElementById('tset').classList.remove('hid');
-            document.getElementById('tpre').classList.remove('hid');
             document.getElementById('tdisp').classList.add('hid');
             document.getElementById('tcan').classList.add('hid');
             document.getElementById('tmin').value = '';
@@ -914,12 +983,63 @@
         }
         document.addEventListener('keydown', e => {
             if (e.target.tagName === 'INPUT') return;
-            if (e.code === 'Space') { e.preventDefault(); cv === 1 ? swTog() : cv === 2 ? tTog() : 0; }
-            if (e.code === 'ArrowLeft' && cv > 0) go(cv - 1);
-            if (e.code === 'ArrowRight' && cv < 2) go(cv + 1);
         });
 
+        /* Todo List Logic */
+        let todos = JSON.parse(localStorage.getItem('focus-todos') || '[]');
+
+        function saveTodos() {
+            localStorage.setItem('focus-todos', JSON.stringify(todos));
+            renderTodos();
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-in');
+            const text = input.value.trim();
+            if (!text) return;
+
+            todos.push({
+                id: Date.now(),
+                text: text,
+                done: false
+            });
+
+            input.value = '';
+            saveTodos();
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            saveTodos();
+        }
+
+        function deleteTodo(e, id) {
+            e.stopPropagation();
+            todos = todos.filter(t => t.id !== id);
+            saveTodos();
+        }
+
+        function renderTodos() {
+            const list = document.getElementById('todo-list');
+            list.innerHTML = todos.map(t => `
+                <div class="todo-item neu ${t.done ? 'done' : ''}" onclick="toggleTodo(${t.id})">
+                    <div class="todo-check neu-inset">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="todo-txt">${t.text}</div>
+                    <div class="todo-del" onclick="deleteTodo(event, ${t.id})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </div>
+                </div>
+            `).reverse().join('');
+        }
+
         initClock();
+        renderTodos();
         requestAnimationFrame(updateClock);
     </script>
 </body>
